@@ -163,6 +163,7 @@ GameManager.prototype.move = function (direction) {
           } else {
               if (tile.unstable !== 0) {
                 if (tile.unstable === 1) {
+                  tile.unstable--;
                   tile.explode = true;
                   exploded = true;
                 }
