@@ -167,7 +167,6 @@ GameManager.prototype.move = function (direction) {
                   tile.explode = true;
                   exploded = true;
                   self.moveTile(tile, positions.farthest);
-                  console.log(tile.unstable);
                 }
                 else {
                   tile.unstable--;
