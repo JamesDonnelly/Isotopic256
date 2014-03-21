@@ -405,11 +405,11 @@ hr {
     left: 0;
     width: 107px;
     height: 107px;
-    line-height: 126px;
+    line-height: 186px;
     display: block;
-    font-size: 82px;
-    color: #BBADA0;
-    color: rgba(90, 89, 89, 0.75);
+    font-size: 30px;
+    color: #fafafa;
+    color: rgba(255, 255, 255, 0.85);
     visibility: hidden;
   }
   .tile.tile-2 .tile-inner {
