@@ -114,7 +114,6 @@ GameManager.prototype.move = function (direction) {
   var traversals = this.buildTraversals(vector);
   var moved      = false;
 
-
   var exploded = false;
 
   // Save the current tile positions and remove merger information
@@ -132,7 +131,7 @@ GameManager.prototype.move = function (direction) {
 
         // Only one merger per row traversal?
         //if (!tile.isDud) {
-          if (next && (!next.explode || next.unstable === "0") && next.value === tile.value && !next.mergedFrom) {
+          if (next && next.value === tile.value && !next.mergedFrom) {
               var merged = new Tile(positions.next, tile.value * 2);
               merged.mergedFrom = [tile, next];
 
@@ -141,32 +140,19 @@ GameManager.prototype.move = function (direction) {
                              || merged.value === 128
                              || merged.value > 256 ? (merged.value <= 256 ? merged.value - (merged.value / 4) : 81) : 0;
 
+              // Update the score
+              self.score += merged.value + (tile.unstable > 0 ? tile.unstable * 2 : 0) + (next.unstable > 0 ? next.unstable * 2 : 0);
+
               self.grid.insertTile(merged);
               self.grid.removeTile(tile);
 
               // Converge the two tiles' positions
               tile.updatePosition(positions.next);
 
-              // Update the score
-              self.score += merged.value;
-
               // The mighty 2048 tile
               if (merged.value === 256) self.won = true;
           } else {
-              if (tile.unstable !== 0) {
-                if (tile.unstable === 1) {
-                  tile.unstable = "0";
-                  tile.explode = true;
-                  exploded = true;
-                  self.moveTile(tile, positions.farthest);
-                }
-                else {
-                  tile.unstable--;
-                  self.moveTile(tile, positions.farthest);
-                }
-              }
-              else
-                self.moveTile(tile, positions.farthest);
+            self.moveTile(tile, positions.farthest);
           }
         //}
         /*else {
@@ -186,17 +172,29 @@ GameManager.prototype.move = function (direction) {
   });
 
   if (moved) {
+    var unstableTiles = self.grid.getUnstableTiles(self.grid);
+    for (i = 0; i < unstableTiles.length; i++) {
+        var unstableTile = unstableTiles[i]
+        if (unstableTile.unstable === 1) {
+            unstableTile.unstable = "0";
+            unstableTile.explode = true;
+            exploded = true;
+        }
+        else {
+          unstableTile.unstable--;
+        }
+    }
+    if (exploded) {
+      var exploding = self.grid.getExplodingTiles(self.grid);
+      for (j = 0; j < exploding.length; j++) {
+          self.grid.removeTile(exploding[j]);
+      }
+    }
+
     this.addRandomTile();
+
     if (!exploded && !this.movesAvailable()) {
       this.over = true; // Game over!
-    }
-    else {
-      var exploding = self.grid.getExplodingTiles(self.grid);
-      if (exploding.length > 0) {
-        for (i=0; i<exploding.length; i++) {
-            self.grid.removeTile(exploding[i]);
-        }
-      }
     }
 
     this.actuate();

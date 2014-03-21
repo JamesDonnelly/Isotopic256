@@ -69,6 +69,20 @@ Grid.prototype.cellContent = function (cell) {
   }
 };
 
+Grid.prototype.getUnstableTiles = function(grid) {
+  var cells = [];
+
+  this.eachCell(function (x, y, tile) {
+    if (tile) {
+      var tileContent = grid.cellContent(tile);
+      if (tileContent.unstable !== 0)
+        cells.push(tileContent);
+    }
+  });
+
+  return cells;
+}
+
 Grid.prototype.getExplodingTiles = function(grid) {
   var cells = [];
 

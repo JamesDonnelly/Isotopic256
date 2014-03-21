@@ -349,8 +349,8 @@ hr {
       visibility: hidden;
     }
     @-webkit-keyframes shake {
-      from {width: 115px; height:115px; margin-top: -4px; margin-left: -4px;}
-      to {width: 107px; height: 107px; margin-top: 0; margin-left: 0;}
+      from {width: 115px; height:115px; margin-left: -4px; margin-top: -4px;}
+      to {width: 107px; height: 107px; margin-left: 0; margin-top: 0;}
     }
 
     @-moz-keyframes shake {
