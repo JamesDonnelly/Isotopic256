@@ -114,14 +114,6 @@ GameManager.prototype.move = function (direction) {
   var traversals = this.buildTraversals(vector);
   var moved      = false;
 
-  var exploding = self.grid.getExplodingTiles(self.grid);
-  if (exploding.length > 0) {
-    exploded = true;
-    for (i=0; i<exploding.length; i++) {
-      self.grid.removeTile(exploding[i]);
-    }
-  }
-
 
   var exploded = false;
 
@@ -140,7 +132,7 @@ GameManager.prototype.move = function (direction) {
 
         // Only one merger per row traversal?
         //if (!tile.isDud) {
-          if (next && !next.explode && next.value === tile.value && !next.mergedFrom) {
+          if (next && (!next.explode || next.unstable === "0") && next.value === tile.value && !next.mergedFrom) {
               var merged = new Tile(positions.next, tile.value * 2);
               merged.mergedFrom = [tile, next];
 
@@ -161,7 +153,7 @@ GameManager.prototype.move = function (direction) {
               // The mighty 2048 tile
               if (merged.value === 256) self.won = true;
           } else {
-              if (tile.unstable != 0) {
+              if (tile.unstable !== 0) {
                 if (tile.unstable === 1) {
                   tile.unstable = "0";
                   tile.explode = true;
@@ -197,6 +189,14 @@ GameManager.prototype.move = function (direction) {
     this.addRandomTile();
     if (!exploded && !this.movesAvailable()) {
       this.over = true; // Game over!
+    }
+    else {
+      var exploding = self.grid.getExplodingTiles(self.grid);
+      if (exploding.length > 0) {
+        for (i=0; i<exploding.length; i++) {
+            self.grid.removeTile(exploding[i]);
+        }
+      }
     }
 
     this.actuate();
