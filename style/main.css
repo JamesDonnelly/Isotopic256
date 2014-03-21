@@ -328,8 +328,8 @@ hr {
     }
 
     @-moz-keyframes explode {
-      from {width: 107px; height:107px; margin-top: 0; margin-left: 0; opacity: 1;}
-      to {width: 127px height:127px; margin-top: -10px; margin-left: -10px; opacity: 0; display: none;}
+      from {opacity: 1; visibility: visible;}
+      to {opacity: 0; visibility: hidden;}
     }
     .tile.tile-unstable.tile-explode .tile-inner {
       -webkit-animation-name: explode; 
@@ -339,7 +339,7 @@ hr {
       -webkit-animation-iteration-count: 1;
       -webkit-animation-timing-function: ease;
 
-      -moz-animation-name: shake; 
+      -moz-animation-name: explode; 
       -moz-animation-duration: 0.5s; 
       -moz-transition-property: -moz-transform;
       -moz-transition-duration: 1s;
@@ -372,9 +372,45 @@ hr {
     -moz-animation-iteration-count: infinite;
     -moz-animation-timing-function: linear;
   }
-  .tile .tile-inner span {
+  .tile .tile-inner span.mass {
     vertical-align: super;
     font-size: 30px;
+  }
+    @-webkit-keyframes count {
+      from {opacity: 1; visibility: visible;}
+      to {opacity: 0; visibility: hidden;}
+    }
+
+    @-moz-keyframes explode {
+      from {opacity: 1; visibility: visible;}
+      to {opacity: 0; visibility: hidden;}
+    }
+  .tile .tile-inner span.count {
+      -webkit-animation-name: count; 
+      -webkit-animation-duration: 1s; 
+      -webkit-transition-property: -webkit-transform;
+      -webkit-transition-duration: 1s;
+      -webkit-animation-iteration-count: 1;
+      -webkit-animation-timing-function: ease;
+
+      -moz-animation-name: count; 
+      -moz-animation-duration: 1s; 
+      -moz-transition-property: -moz-transform;
+      -moz-transition-duration: 1s;
+      -moz-animation-iteration-count: 1;
+      -moz-animation-timing-function: ease;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 107px;
+    height: 107px;
+    line-height: 126px;
+    display: block;
+    font-size: 82px;
+    color: #BBADA0;
+    color: rgba(90, 89, 89, 0.75);
+    visibility: hidden;
   }
   .tile.tile-2 .tile-inner {
     background: #eee4da;
@@ -393,9 +429,9 @@ hr {
   .tile.tile-32 .tile-inner,
   .tile.tile-64 .tile-inner {
     font-size: 45px; }
-  .tile.tile-16 .tile-inner span,
-  .tile.tile-32 .tile-inner span,
-  .tile.tile-64 .tile-inner span {
+  .tile.tile-16 .tile-inner span.mass,
+  .tile.tile-32 .tile-inner span.mass,
+  .tile.tile-64 .tile-inner span.mass {
     font-size: 25px; }
   .tile.tile-32 .tile-inner {
     color: #f9f6f2;
@@ -408,9 +444,9 @@ hr {
   .tile.tile-256 .tile-inner,
   .tile.tile-super .tile-inner {
     font-size: 40px; }
-  .tile.tile-128 .tile-inner span,
-  .tile.tile-256 .tile-inner span,
-  .tile.tile-super .tile-inner span {
+  .tile.tile-128 .tile-inner span.mass,
+  .tile.tile-256 .tile-inner span.mass,
+  .tile.tile-super .tile-inner span.mass {
     font-size: 20px; }
   .tile.tile-128 .tile-inner {
     color: #f9f6f2;

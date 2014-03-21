@@ -76,28 +76,30 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.innerHTML = getElement(tile.value);
+  inner.innerHTML = getElement(tile.value) + (tile.unstable ? '<span class="count">' + tile.unstable + '</span>'  : '');
 
   function getElement(n) {
+    var mass = '<span class="mass">' + n + '</span>';
+
     switch (n) {
       case 2:
-        return "<span>2</span>H";
+        return mass + "H";
       case 4:
-        return "<span>4</span>He";
+        return mass + "He";
       case 8:
-        return "<span>8</span>C";
+        return mass + "C";
       case 16:
-        return "<span>16</span>O";
+        return mass + "O";
       case 32:
-        return "<span>32</span>Mg";
+        return mass + "Mg";
       case 64:
-        return "<span>64</span>Ni";
+        return mass + "Ni";
       case 128:
-        return "<span>128</span>Sn";
+        return mass + "Sn";
       case 256:
-        return "<span>256</span>No";
+        return mass + "No";
       default:
-        return "<span>" + n + "</span>?";
+        return mass + "?";
     }
   }
 
