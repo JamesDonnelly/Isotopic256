@@ -76,7 +76,7 @@ HTMLActuator.prototype.addTile = function (tile) {
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.innerHTML = getElement(tile.value) + (tile.unstable ? '<span class="count">' + tile.unstable + '</span>'  : '');
+  inner.innerHTML = getElement(tile.value) + (tile.unstable || tile.unstable === "0" ? '<span class="count">' + tile.unstable + '</span>'  : '');
 
   function getElement(n) {
     var mass = '<span class="mass">' + n + '</span>';

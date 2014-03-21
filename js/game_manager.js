@@ -161,11 +161,13 @@ GameManager.prototype.move = function (direction) {
               // The mighty 2048 tile
               if (merged.value === 256) self.won = true;
           } else {
-              if (tile.unstable !== 0) {
+              if (tile.unstable != 0) {
                 if (tile.unstable === 1) {
-                  tile.unstable--;
+                  tile.unstable = "0";
                   tile.explode = true;
                   exploded = true;
+                  self.moveTile(tile, positions.farthest);
+                  console.log(tile.unstable);
                 }
                 else {
                   tile.unstable--;
