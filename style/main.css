@@ -206,7 +206,9 @@ hr {
     .game-container .game-message .score-sharing {
       display: inline-block;
       vertical-align: middle;
-      margin-left: 10px; }
+      margin-left: 10px;
+      display: block;
+      margin-top: 20px; }
     .game-container .game-message.game-won {
       background: rgba(237, 194, 46, 0.5);
       color: #f9f6f2; }
@@ -698,7 +700,9 @@ hr {
       .game-container .game-message .score-sharing {
         display: inline-block;
         vertical-align: middle;
-        margin-left: 10px; }
+        margin-left: 10px;
+        display: block;
+        margin-top: 20px; }
       .game-container .game-message.game-won {
         background: rgba(237, 194, 46, 0.5);
         color: #f9f6f2; }
