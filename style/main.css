@@ -216,6 +216,10 @@ hr {
         display: inline-block; }
     .game-container .game-message.game-won, .game-container .game-message.game-over {
       display: block; }
+      .fb-like.fb_iframe_widget {
+        display: block;
+        margin: 5px;
+      }
 
 .grid-container {
   position: absolute;
