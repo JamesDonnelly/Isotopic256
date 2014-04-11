@@ -111,7 +111,7 @@ KeyboardInputManager.prototype.listen = function () {
     var dy = event.changedTouches[0].clientY - touchStartClientY;
     var absDy = Math.abs(dy);
 
-    if (Math.max(absDx, absDy) > 10) {
+    if (Math.max(absDx, absDy) > 35) {
       // (right : left) : (down : up)
       self.emit ("move", getDirection (dy, dx));
     }
@@ -127,7 +127,7 @@ KeyboardInputManager.prototype.listen = function () {
     gameContainer.classList.remove ("grabbing");
     gameContainer.classList.add ("grab");
 
-    if (Math.max(absDx, absDy) > 10) {
+    if (Math.max(absDx, absDy) > 35) {
       self.emit ("move", getDirection (dy, dx));
     }
   });
