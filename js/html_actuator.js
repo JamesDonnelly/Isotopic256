@@ -5,6 +5,10 @@ function HTMLActuator() {
   this.messageContainer = document.querySelector(".game-message");
   this.sharingContainer = document.querySelector(".score-sharing");
 
+  this.tileCounter    = document.querySelector(".tile-counter");
+  this.previousCounter = { "2": 0, "4": 0, "8": 0, "16": 0, "32": 0, "64": 0, "128": 0, "256": 0, "512": 0, "1024": 0 };
+  this.counter = { "2": 0, "4": 0, "8": 0, "16": 0, "32": 0, "64": 0, "128": 0, "256": 0, "512": 0, "1024": 0 };
+
   this.score = 0;
 }
 
@@ -33,8 +37,43 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
       }
     }
 
+    self.updateCounter();
   });
 };
+
+HTMLActuator.prototype.updateCounter = function() {
+  for (var key in this.counter) {
+    var counter = this.counter[key],
+        previousCounter = this.previousCounter[key],
+        tile;
+
+    if (counter === 0)
+      return;
+
+    if (previousCounter === 0) {
+      var wrapper   = document.createElement("div");
+      var inner     = document.createElement("div");
+      var count     = document.createElement("div");
+
+      inner.innerHTML = this.getElement(key);
+
+      this.applyClasses(wrapper, ["counter", "tile-"+key]);
+      this.applyClasses(inner, ["element"]);
+      this.applyClasses(count, ["count"]);
+
+      wrapper.appendChild(inner);
+      wrapper.appendChild(count);
+      this.tileCounter.appendChild(wrapper);
+    }
+
+    tile = this.tileCounter.querySelector(".tile-"+key);
+    count = tile.querySelector(".count");
+
+    count.textContent = counter;
+
+    this.previousCounter[key] = this.counter[key];
+  }
+}
 
 // Continues the game (both restart and keep playing)
 HTMLActuator.prototype.continue = function () {
@@ -50,6 +89,31 @@ HTMLActuator.prototype.clearContainer = function (container) {
     container.removeChild(container.firstChild);
   }
 };
+
+HTMLActuator.prototype.getElement = function(n) {
+    var mass = '<span class="mass">' + n + '</span>';
+
+    switch (+n) {
+      case 2:
+        return mass + "H";
+      case 4:
+        return mass + "He";
+      case 8:
+        return mass + "C";
+      case 16:
+        return mass + "O";
+      case 32:
+        return mass + "Mg";
+      case 64:
+        return mass + "Ni";
+      case 128:
+        return mass + "Sn";
+      case 256:
+        return mass + "No";
+      default:
+        return mass + "?";
+    }
+  }
 
 HTMLActuator.prototype.addTile = function (tile) {
   var self = this;
@@ -75,33 +139,9 @@ HTMLActuator.prototype.addTile = function (tile) {
 
   this.applyClasses(wrapper, classes);
 
+
   inner.classList.add("tile-inner");
-  inner.innerHTML = getElement(tile.value) + (tile.unstable || tile.unstable === "0" ? '<span class="count">' + tile.unstable + '</span>'  : '');
-
-  function getElement(n) {
-    var mass = '<span class="mass">' + n + '</span>';
-
-    switch (n) {
-      case 2:
-        return mass + "H";
-      case 4:
-        return mass + "He";
-      case 8:
-        return mass + "C";
-      case 16:
-        return mass + "O";
-      case 32:
-        return mass + "Mg";
-      case 64:
-        return mass + "Ni";
-      case 128:
-        return mass + "Sn";
-      case 256:
-        return mass + "No";
-      default:
-        return mass + "?";
-    }
-  }
+  inner.innerHTML = this.getElement(tile.value) + (tile.unstable || tile.unstable === "0" ? '<span class="count">' + tile.unstable + '</span>'  : '');
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
@@ -112,6 +152,7 @@ HTMLActuator.prototype.addTile = function (tile) {
   } else if (tile.mergedFrom) {
     classes.push("tile-merged");
     this.applyClasses(wrapper, classes);
+    this.counter[tile.value]++;
 
     // Render the tiles that merged
     tile.mergedFrom.forEach(function (merged) {
@@ -120,6 +161,7 @@ HTMLActuator.prototype.addTile = function (tile) {
   } else {
     classes.push("tile-new");
     this.applyClasses(wrapper, classes);
+    this.counter[tile.value]++;
   }
 
   // Add the inner part of the tile to the wrapper
