@@ -391,7 +391,7 @@ hr {
       to {opacity: 0; visibility: hidden;}
     }
 
-    @-moz-keyframes explode {
+    @-moz-keyframes count {
       from {opacity: 1; visibility: visible;}
       to {opacity: 0; visibility: hidden;}
     }
