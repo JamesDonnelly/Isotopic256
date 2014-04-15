@@ -716,6 +716,10 @@ hr {
   .heading {
     margin-bottom: 10px; }
 
+    .tile-counter {
+      width: 280px;
+    }
+
   .game-container {
     margin-top: 40px;
     position: relative;
