@@ -99,11 +99,11 @@ HTMLActuator.prototype.getElement = function(n) {
       case 4:
         return mass + "He";
       case 8:
-        return mass + "C";
+        return mass + "Be";
       case 16:
         return mass + "O";
       case 32:
-        return mass + "Mg";
+        return mass + "P";
       case 64:
         return mass + "Ni";
       case 128:
